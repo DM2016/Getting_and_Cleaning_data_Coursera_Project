@@ -11,6 +11,9 @@ dir.train <- file.path(main_path, "train")
 dir.test <- file.path(main_path, "test")
 out.path <- file.path("D:/Docker/Getting_cleaning_data/WK4/getdata_projectfiles_UCI_HAR_Dataset/UCI_HAR_Dataset/Results")
 
+
+#II. Read the datasets in
+
 #Training data set
 my_Xtrain0 <- read.table(file.path(dir.train, "X_train.txt"))
 my_train_ycol0 <- read.table(file.path(dir.train, "y_train.txt"))
@@ -26,13 +29,15 @@ my_subj_test0 <- read.table(file.path(dir.test, "subject_test.txt"))
 my_labels0 <- read.table(file.path(main_path, "features.txt"))
 my_act_labels0 <- read.table(file.path(main_path, "activity_labels.txt"))
 
+
+#III. Complete assignment objectives
+
 ###Objective 1
 #Merges the training and the test sets to create one data set.
 my_train <- cbind(my_subj_train0, my_train_ycol0, my_Xtrain0)
 my_test <- cbind(my_subj_test0, my_test_ycol0, my_Xtest0)
 
 my_merged_data <- rbind(my_test, my_train)
-
 
 #add column names with the features.txt file
 my_labels1 <- my_labels0 %>%
@@ -79,6 +84,8 @@ names(my_merged_data1)
 my_merged_data2 <- my_merged_data1 %>%
   group_by(subj.ids, activity.names) %>%
   summarize_all(mean, na.rm = TRUE)
+
+#IV. Write out results
 
 #write out the results to my results file
 write.table(my_merged_data2, file.path(out.path, "merged_test_train_tidy.txt"), row.name = F)
